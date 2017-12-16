@@ -1,0 +1,19 @@
+{
+  "name": "dashcord",
+  "version": "1.0.0",
+  "description": "Discord bot dashboard service",
+  "main": "server.js",
+  "repository": "https://github.com/dashcord/dashcord.git",
+  "author": "phantamanta44",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "chalk": "^2.3.0",
+    "floof": "^0.0.4",
+    "floof-passport": "^0.0.1",
+    "floof-session": "^0.0.1",
+    "passport-discord": "^0.1.3"
+  }
+}
