@@ -4,13 +4,6 @@ const PassportPlugin = require('floof-passport');
 const {Strategy} = require('passport-discord');
 const {User, userSerialization, dashConfig} = require('./lib');
 
-let s = require('floof').Stoof;
-let c = s.prototype.cookie;
-s.prototype.cookie = function(...args) {
-  console.log('cookie called', args);
-  return c.apply(this, args);
-};
-
 const app = new FloofBall();
 app.plugin(new SessionPlugin(dashConfig.DASHCORD_SECRET));
 const pp = new PassportPlugin(true, userSerialization);
