@@ -56,7 +56,12 @@ app.get('/login/cb').exec(async (req, ren) => {
     req.flash('Authentication failed! Please try again.');
   }
   return redirect('/');
-})
+});
+
+app.get('/logout').exec(async (req, ren) => {
+  await req.logout();
+  return redirect('/');
+});
 
 app.get('/dash').exec((req, ren) => {
   

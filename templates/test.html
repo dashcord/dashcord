@@ -11,6 +11,7 @@
     </ul>
     <? if (req.user) { ?>
       <h1>Logged in</h1>
+      <a href="/logout">Log out</a>
       <p><?= profile.username ?>#<?= profile.discriminator ?></p>
       <ul>
         <? for (const guild of guilds) { ?>
