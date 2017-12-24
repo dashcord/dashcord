@@ -1,0 +1,37 @@
+body {
+  background-color: #F6F6F6;
+  color: #000;
+}
+
+header {
+  background-color: #FFF;
+}
+
+.nav-elem {
+  color: #000;
+  opacity: 0.64;
+  transition: opacity 0.2s;
+}
+
+.nav-elem:hover {
+  opacity: 1;
+}
+
+.nav-elem.active {
+  opacity: 1;
+  border-bottom: 1px solid #000;
+}
+
+footer {
+  border-top: 1px solid #DEDEDE;
+}
+
+.footer-link {
+  color: #000;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}
+
+.footer-link:hover {
+  opacity: 0.64;
+}

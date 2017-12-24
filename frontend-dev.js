@@ -1,10 +1,9 @@
-const {FloofBall} = require('floof');
+const {FloofBall, redirect, Floop} = require('floof');
+const {middleware} = require('./lib');
 
-const app = new FloofBall();
+const app = middleware(new FloofBall());
 
-app.get('/dev').exec((req, ren) => {
-  
-});
+app.get('/dev').exec((req, ren) => ren.render('dev/home.html'));
 
 app.get('/dev/dash').exec((req, ren) => {
   

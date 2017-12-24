@@ -1,0 +1,30 @@
+body {
+  background-color: #000;
+  color: #FFF;
+}
+
+header {
+  border-bottom: 1px solid #212121;
+}
+
+.nav-elem {
+  color: #FFF;
+}
+
+.nav-elem:hover, .nav-elem.active {
+  background-color: #FFF;
+  color: #000;
+}
+
+footer {
+  border-top: 1px solid #212121;
+}
+
+.footer-link {
+  color: #FFF;
+}
+
+.footer-link:hover {
+  background-color: #FFF;
+  color: #000;
+}

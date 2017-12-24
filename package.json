@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "chalk": "^2.3.0",
+    "chokidar": "^1.7.0",
     "floof": "^1.0.5",
     "floof-passport": "^1.0.1",
     "floof-session": "^1.0.1",

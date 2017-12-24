@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Cabin">
+    <link rel="stylesheet" href="//cdn.materialdesignicons.com/1.7.22/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/static/main.css">
+    <? block head-parent ?>
+    <? block head ?>
+    <title>DashCord &raquo; <? block title ?></title>
+  </head>
+  <body>
+    <header>
+      <div id="logo">
+        <h1>DashCord</h1>
+      </div>
+      <nav>
+        <? block nav ?>
+      </nav>
+    </header>
+    <main>
+      <? block main ?>
+    </main>
+    <footer>
+      <div id="footer-left">
+        <p id="copyright">&copy; 2017 Evan Geng</p>
+      </div>
+      <div id="footer-right">
+        <a class="footer-link" href="https://github.com/phantamanta44/dashcord" target="__BLANK" rel="noopener">
+          <i class="mdi mdi-github-circle"></i>
+        </a>
+      </div>
+    </footer>
+    <script type="application/javascript">
+      const path = document.location.pathname;
+      for (const elem of document.getElementsByClassName('nav-elem')) {
+        if (path.startsWith(elem.getAttribute('href'))) {
+          elem.classList.add('active');
+          break;
+        }
+      }
+    </script>
+    <? block end ?>
+  </body>
+</html>

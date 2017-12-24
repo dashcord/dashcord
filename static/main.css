@@ -1,0 +1,92 @@
+@font-face {
+    font-family: 'Calamity';
+    src: url('/static/font/Calamity-Regular.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Calamity';
+    src: url('/static/font/Calamity-Bold.otf') format('opentype');
+    font-weight: bold;
+}
+
+* {
+  margin: 0; padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Calamity', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  overflow-x: hidden;
+}
+
+h1 {
+  font-size: 36pt;
+  font-weight: bold;
+}
+
+h2 {
+  margin-bottom: 12px;
+  font-size: 24pt;
+  font-weight: bold;
+}
+
+p {
+  font-size: 13pt;
+}
+
+a {
+  text-decoration: none;
+}
+
+header, main, footer {
+  width: 100%;
+}
+
+header {
+  padding: 24px 5.5%;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-elem {
+  margin: 0 8px;
+  display: inline-block;
+}
+
+.nav-elem-text, .nav-elem-avatar {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.nav-elem-avatar {
+  height: 28px;
+  border-radius: 50%;
+}
+
+main {
+  padding: 28px 0;
+}
+
+footer {
+  padding: 16px 5.5%;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#copyright {
+  font-size: 10pt;
+}
+
+#footer-right {
+  font-size: 0;
+}
+
+.footer-link {
+  height: 24px;
+  margin: 0 4px;
+  font-size: 24px;
+}

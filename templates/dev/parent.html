@@ -1,0 +1,25 @@
+<? extends parent.html ?>
+<? def head-parent ?>
+  <link rel="stylesheet" href="/static/dev/main.css">
+<? undef ?>
+<? def nav ?>
+  <a class="nav-elem" href="/dev">
+    <p class="nav-elem-text">Home</p>
+  </a>
+  <a class="nav-elem" href="/">
+    <p class="nav-elem-text">Guildowners</p>
+  </a>
+  <? if (req.user) { ?>
+    <a class="nav-elem" href="/dash">
+      <p class="nav-elem-text">Dashboard</p>
+    </a>
+    <a class="nav-elem" href="/logout">
+      <img class="nav-elem-avatar" src="//cdn.discordapp.com/avatars/<?= req.user.id ?>/<?= req.profile.avatar ?>.png">
+      <p class="nav-elem-text">Log Out</p>
+    </a>
+  <? } else { ?>
+    <a class="nav-elem" href="/login">
+      <p class="nav-elem-text">Log In</p>
+    </a>
+  <? } ?>
+<? undef ?>
