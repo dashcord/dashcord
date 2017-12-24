@@ -3,14 +3,14 @@
   <link rel="stylesheet" href="/static/euser/main.css">
 <? undef ?>
 <? def nav ?>
-  <a class="nav-elem" href="/">
+  <a class="nav-elem<? if (!req.path.startsWith('/dash')) { ?> active<? } ?>" href="/">
     <p class="nav-elem-text">Home</p>
   </a>
   <a class="nav-elem" href="/dev">
     <p class="nav-elem-text">Developers</p>
   </a>
   <? if (req.user) { ?>
-    <a class="nav-elem" href="/dash">
+    <a class="nav-elem<? if (req.path.startsWith('/dash')) { ?> active<? } ?>" href="/dash">
       <p class="nav-elem-text">Dashboard</p>
     </a>
     <a class="nav-elem" href="/logout">
