@@ -23,17 +23,3 @@
     </a>
   <? } ?>
 <? undef ?>
-<? def end-parent ?>
-  <script type="application/javascript">
-    let path = document.location.pathname;
-    if (path.startsWith('/dev')) {
-      path = path.substring(4);
-    }
-    for (const elem of document.getElementsByClassName('nav-elem')) {
-      if (path.startsWith(elem.getAttribute('href'))) {
-        elem.classList.add('active');
-        break;
-      }
-    }
-  </script>
-<? undef ?>
