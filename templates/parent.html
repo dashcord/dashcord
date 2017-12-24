@@ -17,6 +17,13 @@
         <? block nav ?>
       </nav>
     </header>
+    <div id="flashes">
+      <? for (const flash of req.flashes) { ?>
+        <div class="flash">
+          <p><?= flash ?></p>
+        </div>
+      <? } ?>
+    </div>
     <main>
       <? block main ?>
     </main>

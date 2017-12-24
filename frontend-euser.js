@@ -10,6 +10,7 @@ app.get('/bots').exec((req, ren) => {
 });
 
 app.get('/login').exec(async (req, ren) => {
+  req.session.cameFrom = req.header('referer') || '/';
   const result = await req.authenticate('discord');
   if (result.status === 'redirect') {
     return result.redirect;
@@ -20,14 +21,17 @@ app.get('/login').exec(async (req, ren) => {
 app.get('/login/cb').exec(async (req, ren) => {
   const result = await req.authenticate('discord');
   if (result.status !== 'success') {
-    req.flash('Authentication failed! Please try again.');
+    req.flash('Login failed! Please try again...');
+  } else {
+    req.flash('Logged in successfully!')
   }
-  return redirect('/');
+  return redirect(req.cameFrom);
 });
 
 app.get('/logout').exec(async (req, ren) => {
   await req.logout();
-  return redirect('/');
+  req.flash('Logged out successfully!');
+  return redirect(req.header('referer') || '/');
 });
 
 app.get('/dash').exec((req, ren) => {

@@ -65,6 +65,10 @@ header {
   border-radius: 50%;
 }
 
+.flash {
+  padding: 18px 5.5%;
+}
+
 main {
   padding: 28px 0;
 }
