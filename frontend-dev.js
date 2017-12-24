@@ -13,4 +13,7 @@ app.get('/dev/dash/:cid').withQuery('p', 'str').exec((req, ren) => {
   
 });
 
+app.error().forCodes(400, 600)
+  .exec((req, msg, ren) => ren.render('dev/error.html', {code: req.code, msg}));
+
 module.exports = app;

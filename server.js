@@ -7,6 +7,13 @@ const {logs, initDatabase, User, masters} = require('./lib');
 const app = new Floof()
   .ball(fbApi).ball(fbFrontDev).ball(fbFrontEUser);
 
+app.error().forCode(404).exec(async (req, msg, ren) => {
+  if (req.url.startsWith('/dev')) {
+    return await req.delegateError(fbFrontDev);
+  }
+  return await req.delegateError(fbFrontEUser);
+});
+
 if (process.env.DASHCORD_DEBUG === 'true') {
   logs.warn('Debug mode enabled!');
   const watcher = require('chokidar').watch('templates', {disableGlobbing: true});

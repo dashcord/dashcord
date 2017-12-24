@@ -1,0 +1,13 @@
+<? extends dev/parent.html ?>
+<? def title ?>Home<? undef ?>
+<? def head ?>
+  <style>
+    main { text-align: center; }
+    h2 { margin-bottom: 28px; }
+    #error-img { border: 2px solid #212121; }
+  </style>
+<? undef ?>
+<? def main ?>
+  <h2><?= msg ?></h2>
+  <img id="error-img" src="//http.cat/<?= code ?>">
+<? undef ?>

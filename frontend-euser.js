@@ -46,8 +46,7 @@ app.post('/dash/:cid/update').withBody('json').exec((req, ren) => {
   
 });
 
-app.error().forCode(404).exec((req, ren) => {
-  
-});
+app.error().forCodes(400, 600)
+  .exec((req, msg, ren) => ren.render('euser/error.html', {code: req.code, msg}));
 
 module.exports = app;
