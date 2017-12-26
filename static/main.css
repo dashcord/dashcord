@@ -54,6 +54,10 @@ header {
   justify-content: space-between;
 }
 
+#logo {
+  position: relative;
+}
+
 .nav-elem {
   margin: 0 8px;
   display: inline-block;
