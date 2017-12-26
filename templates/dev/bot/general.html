@@ -7,22 +7,26 @@
     <div class="config-field text">
       <h3 class="config-key">Bot Name<super class="req">*</super></h3>
       <p class="config-desc">The name of your bot, as displayed on the dashboard.</p>
-      <input type="text" class="config-value" name="name" value="<?= bot.name ?>" required>
+      <input type="text" class="config-value" name="name" value="<?= bot.name ?>"
+             required minlength="1" maxlength="16">
     </div>
     <div class="config-field text">
       <h3 class="config-key">Dashboard Subtitle</h3>
       <p class="config-desc">The subtitle displayed on your bot's dashboard.</p>
-      <input type="text" class="config-value" name="subtitle" value="<?= bot.subtitle ?>">
+      <input type="text" class="config-value" name="subtitle" value="<?= bot.subtitle ?>"
+             maxlength="140">
     </div>
     <div class="config-field text">
       <h3 class="config-key">Website URL</h3>
       <p class="config-desc">A link to your bot's website.</p>
-      <input type="text" class="config-value" name="website" value="<?= bot.website ?>">
+      <input type="url" class="config-value" name="website" value="<?= bot.website ?>"
+             maxlength="64" pattern="^(?:https?:\/\/)(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}(?:\/.+)?$">
     </div>
     <div class="config-field text">
       <h3 class="config-key">Invite URL</h3>
       <p class="config-desc">A link that allows invitation of your bot to a guild.</p>
-      <input type="text" class="config-value" name="invite" value="<?= bot.invite ?>">
+      <input type="url" class="config-value" name="invite" value="<?= bot.invite ?>"
+             maxlength="64" pattern="^(?:https?:\/\/)(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}(?:\/.+)?$">
     </div>
     <div class="config-field">
       <button id="button-submit"><i class="mdi mdi-content-save"></i> Save</button>

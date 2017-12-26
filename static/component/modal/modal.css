@@ -4,7 +4,7 @@
   top: 0; left: 0;
   background-color: #000;
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.25s;
   pointer-events: none;
 }
 
@@ -21,7 +21,7 @@
   background-color: #FFF;
   color: rgba(0, 0, 0, 0.87);
   border-radius: 4px;
-  transition: top 0.3s;
+  transition: top 0.25s;
   pointer-events: none
 }
 

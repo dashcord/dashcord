@@ -58,7 +58,8 @@ main {
   margin-bottom: 4px;
 }
 
-input[type="text"].config-value {
+input[type="text"].config-value,
+input[type="url"].config-value{
   width: 100%;
   margin: 10px auto 0; padding: 8px;
   border-radius: 4px;
