@@ -3,6 +3,10 @@ body {
   color: #FFF;
 }
 
+hr {
+  border-color: #212121;
+}
+
 header {
   border-bottom: 1px solid #212121;
 }

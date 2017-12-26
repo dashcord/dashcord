@@ -1,0 +1,44 @@
+<? extends dev/bot/parent.html ?>
+<? def head-child ?>
+  <link rel="stylesheet" href="/static/component/modal/modal.css">
+<? undef ?>
+<? def config ?>
+  <form id="config-form" action="/dev/dash/<?= bot._id ?>/update" method="POST">
+    <div class="config-field text">
+      <h3 class="config-key">Bot Name<super class="req">*</super></h3>
+      <p class="config-desc">The name of your bot, as displayed on the dashboard.</p>
+      <input type="text" class="config-value" name="name" value="<?= bot.name ?>" required>
+    </div>
+    <div class="config-field text">
+      <h3 class="config-key">Dashboard Subtitle</h3>
+      <p class="config-desc">The subtitle displayed on your bot's dashboard.</p>
+      <input type="text" class="config-value" name="subtitle" value="<?= bot.subtitle ?>">
+    </div>
+    <div class="config-field text">
+      <h3 class="config-key">Website URL</h3>
+      <p class="config-desc">A link to your bot's website.</p>
+      <input type="text" class="config-value" name="website" value="<?= bot.website ?>">
+    </div>
+    <div class="config-field text">
+      <h3 class="config-key">Invite URL</h3>
+      <p class="config-desc">A link that allows invitation of your bot to a guild.</p>
+      <input type="text" class="config-value" name="invite" value="<?= bot.invite ?>">
+    </div>
+    <div class="config-field">
+      <button id="button-submit"><i class="mdi mdi-content-save"></i> Save</button>
+      <button id="button-delete" type="button"><i class="mdi mdi-delete"></i> Delete</button>
+    </div>
+  </form>
+<? undef ?>
+<? def end ?>
+  <script src="/static/component/modal/modal.js"></script>
+  <script type="application/javascript">
+    const form = document.getElementById('config-form');
+    const btnDelete = document.getElementById('button-delete');
+    btnDelete.onclick = function() {
+      showModal('boolean', 'Are you sure you want to delete <?= bot.name ?>?', function() {
+        document.location = '/dev/dash/<?= bot._id ?>/delete';
+      });
+    };
+  </script>
+<? undef ?>

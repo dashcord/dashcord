@@ -1,3 +1,39 @@
 main {
   padding-left: 5.5%; padding-right: 5.5%;
 }
+
+#bot-list {
+  width: 100%;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.bot {
+  width: 50%;
+  margin: 8px auto 0; padding: 12px 0;
+  display: block;
+  background-color: #263238;
+  color: #FFF;
+  font-size: 20pt;
+  outline: 0 solid #ABABAB;
+}
+
+.bot:first-child {
+  margin-top: 28px;
+}
+
+.bot:hover {
+  outline-width: 2px;
+  outline-offset: 3px;
+}
+
+#add-bot {
+  background-color: #388E3C;
+}
+
+#add-bot > small {
+  color: #EAEAEA;
+  font-size: 12pt;
+  font-weight: normal;
+  font-style: normal;
+}

@@ -1,0 +1,31 @@
+<? extends dev/bot/parent.html ?>
+<? def head-child ?>
+  <link rel="stylesheet" href="/static/component/modal/modal.css">
+  <style>
+    #button-token {
+      margin-top: 14px;
+    }
+  </style>
+<? undef ?>
+<? def config ?>
+  <form id="token-form" action="/dev/dash/<?= bot._id ?>/retoken" method="POST">
+    <div class="config-field text">
+      <h3 class="config-key">API Access Token</h3>
+      <p class="config-desc">Keep this secret! This is what gives you access to your bot's data.</p>
+      <input type="text" class="config-value" name="token" value="<?= bot.token ?>" disabled>
+      <button id="button-token" type="button"><i class="mdi mdi-key"></i> Regenerate Token</button>
+    </div>
+  </form>
+<? undef ?>
+<? def end ?>
+  <script src="/static/component/modal/modal.js"></script>
+  <script type="application/javascript">
+    const form = document.getElementById('token-form');
+    const btnToken = document.getElementById('button-token');
+    btnToken.onclick = function() {
+      showModal('boolean', 'Are you sure you want to regenerate <?= bot.name ?>\'s token?', function() {
+        form.submit();
+      });
+    };
+  </script>
+<? undef ?>

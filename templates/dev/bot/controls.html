@@ -1,0 +1,14 @@
+<? extends dev/bot/parent.html ?>
+<? def head-child ?>
+  <style></style>
+<? undef ?>
+<? def config ?>
+  <div class="config-field text">
+    <h3 class="config-key">Config Field</h3>
+    <p class="config-desc">I am a config field!</p>
+    <input type="text" class="config-value" name="token" value="<?= bot.name ?>">
+  </div>
+  <div class="config-field">
+    <button id="button-submit"><i class="mdi mdi-content-save"></i> Save</button>
+  </div>
+<? undef ?>

@@ -1,0 +1,38 @@
+<? extends dev/parent.html ?>
+<? def title ?>Configuring <?= bot.name ?><? undef ?>
+<? def head ?>
+  <? block head-child ?>
+  <link rel="stylesheet" href="/static/config.css">
+  <link rel="stylesheet" href="/static/dev/config.css">
+<? undef ?>
+<? def main ?>
+  <div id="pane-top">
+    <a id="back-button" href="/dev/dash">
+      <i class="mdi mdi-chevron-left"></i>
+    </a>
+    <h2>Configuring <?= bot.name ?>...</h2>
+  </div>
+  <div id="pane-bottom">
+    <div id="pane-left">
+      <a class="config-tab<? if (page === 'general') { ?> active<? } ?>" href="?p=general">
+        <i class="config-tab-icon mdi mdi-settings"></i>
+        <p class="config-tab-label">General</p>
+      </a>
+      <a class="config-tab<? if (page === 'controls') { ?> active<? } ?>" href="?p=controls">
+        <i class="config-tab-icon mdi mdi-clipboard-text"></i>
+        <p class="config-tab-label">Control Panel</p>
+      </a>
+      <a class="config-tab<? if (page === 'api') { ?> active<? } ?>" href="?p=api">
+        <i class="config-tab-icon mdi mdi-cube-send"></i>
+        <p class="config-tab-label">API Access</p>
+      </a>
+      <a class="config-tab<? if (page === 'webhooks') { ?> active<? } ?>" href="?p=webhooks">
+        <i class="config-tab-icon mdi mdi-webhook"></i>
+        <p class="config-tab-label">Webhooks</p>
+      </a>
+    </div>
+    <div id="pane-right">
+      <? block config ?>
+    </div>
+  </div>
+<? undef ?>

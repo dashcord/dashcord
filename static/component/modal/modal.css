@@ -1,0 +1,89 @@
+#modal-screen {
+  width: 100vw; height: 100vh;
+  position: fixed;
+  top: 0; left: 0;
+  background-color: #000;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+#modal-screen.visible {
+  opacity: 0.5;
+  pointer-events: initial;
+}
+
+#modal-window {
+  padding: 8px;
+  position: fixed;
+  top: -50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #FFF;
+  color: rgba(0, 0, 0, 0.87);
+  border-radius: 4px;
+  transition: top 0.3s;
+  pointer-events: none
+}
+
+#modal-window.visible {
+  top: 50%;
+  pointer-events: initial;
+}
+
+#modal-window-text-container {
+  padding: 28px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+#modal-window-text {
+  margin: 0;
+  font-size: 14pt;
+}
+
+#modal-window-input {
+  width: 100%;
+  margin: 10px auto 0; padding: 8px;
+  display: none;
+  background-color: #E8E8E8;
+  border-radius: 4px;
+  border: none; outline: none;
+  -webkit-appearance: none;
+}
+
+#modal-window.text > #modal-window-text-container > #modal-window-input {
+  display: block;
+}
+
+.modal-window-controls {
+  margin-top: 8px;
+  display: none;
+  text-align: right;
+}
+
+#modal-window.boolean > #modal-window-controls-boolean {
+  display: block;
+}
+
+#modal-window.confirm > #modal-window-controls-confirm,
+#modal-window.text > #modal-window-controls-confirm {
+  display: block;
+}
+
+.modal-window-button {
+  padding: 4px 8px;
+  display: inline-block;
+  background-color: #2196F3;
+  color: #FFF;
+  border-radius: 2px;
+  font-size: 12pt;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#modal-window-button-yes {
+  background-color: #4CAF50;
+}
+
+#modal-window-button-no {
+  background-color: #F44336;
+}

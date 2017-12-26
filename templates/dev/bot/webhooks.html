@@ -1,0 +1,93 @@
+<? extends dev/bot/parent.html ?>
+<? def head-child ?>
+  <link rel="stylesheet" href="/static/component/modal/modal.css">
+  <style>
+    #webhook-list {
+      margin: 6px 0 10px;
+    }
+    
+    .webhook-elem {
+      padding: 6px 0 7px 8px;
+      border-bottom: 1px solid #212121;
+    }
+    
+    .webhook-elem:last-of-type {
+      border-bottom: none;
+    }
+    
+    .webhook-elem > i {
+      color: #42A5F5;
+      cursor: pointer;
+    }
+    
+    .webhook-elem > i:hover {
+      background-color: #FFF;
+      color: #000;
+    }
+  </style>
+<? undef ?>
+<? def config ?>
+  <form id="config-form" action="/dev/dash/<?= bot._id ?>/updatehooks" method="POST">
+    <div class="config-field text">
+      <h3 class="config-key">Webhooks</h3>
+      <p class="config-desc">Get notified via HTTP callback when a user modifies their configuration.</p>
+      <div id="webhook-list">
+        <? for (const wh of bot.webhooks) { ?>
+          <div class="webhook-elem">
+            <span class="webhook-elem-url"><?= wh.url ?></span>
+            <i class="webhook-elem-edit mdi mdi-pencil"></i>
+            <i class="webhook-elem-del mdi mdi-delete"></i>
+            <select class="webhook-elem-event" name="<?= wh.url ?>">
+              <option value="change"<? if (wh.event === 'change') { ?> selected<? } ?>>Config Modified</option>
+              <option value="add"<? if (wh.event === 'add') { ?> selected<? } ?>>Bot Added</option>
+              <option value="remove"<? if (wh.event === 'remove') { ?> selected<? } ?>>Bot Removed</option>
+            </select>
+          </div>
+        <? } ?>
+      </div>
+      <button id="button-add" type="button"><i class="mdi mdi-plus-network"></i> New Webhook</button>
+    </div>
+    <div class="config-field">
+      <button id="button-submit"><i class="mdi mdi-content-save"></i> Save</button>
+    </div>
+  </form>
+<? undef ?>
+<? def end ?>
+  <script src="/static/component/modal/modal.js"></script>
+  <script type="application/javascript">
+    const whList = document.getElementById('webhook-list');
+    const btnAdd = document.getElementById('button-add');
+    function bindControls(wh) {
+      wh.children[1].onclick = function() {
+        showModal('text', `Choose a new URL for your webhook.`, function(e, url) {
+          wh.children[0].innerText = url;
+          wh.children[3].setAttribute('name', url);
+        }, null, wh.children[0].innerText);
+      };
+      wh.children[2].onclick = function() {
+        showModal('boolean', `Remove the webhook ${wh.children[0].innerText}?`, function() {
+          wh.remove();
+        });
+      };
+    }
+    for (const wh of document.getElementsByClassName('webhook-elem')) {
+      bindControls(wh);
+    }
+    btnAdd.onclick = function() {
+      showModal('text', 'Choose a URL for your webhook.', function(e, url) {
+        const elem = document.createElement('div');
+        elem.setAttribute('class', 'webhook-elem');
+        elem.innerHTML = `<span class="webhook-elem-url">${url}</span>
+<i class="webhook-elem-edit mdi mdi-pencil"></i>
+<i class="webhook-elem-del mdi mdi-delete"></i>
+<select class="webhook-elem-event" name="${url}">
+  <option value="change" selected>Config Modified</option>
+  <option value="add">Bot Added</option>
+  <option value="remove">Bot Removed</option>
+</select>`;
+        whList.append(elem);
+        bindControls(elem);
+      });
+    };
+  </script>
+<? undef ?>

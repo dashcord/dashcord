@@ -1,9 +1,42 @@
 <? extends dev/parent.html ?>
 <? def title ?>Developer Dashboard<? undef ?>
 <? def head ?>
+  <link rel="stylesheet" href="/static/component/modal/modal.css">
   <link rel="stylesheet" href="/static/dev/dash.css">
 <? undef ?>
 <? def main ?>
-  <h2>Please finish this page!</h2>
-  <p>Lorem ipsum dolor set amet consectetur adipiscing elit sed do eiusmod tempor incididunt...</p>
+  <h2>Developer Dashboard</h2>
+  <p>Select or add a bot to continue.</p>
+  <hr>
+  <div id="bot-list">
+    <a id="add-bot" class="bot" href="#">
+      <i class="mdi mdi-playlist-plus"></i>
+      <span class="bot-name">New Bot</span>
+      <small>(<?= bots.length?>/1)</small>
+    </a>
+    <? for (const bot of bots) { ?>
+      <a class="bot" href="/dev/dash/<?= bot._id ?>">
+        <i class="mdi mdi-account"></i>
+        <span class="bot-name"><?= bot.name ?></span>
+      </a>
+    <? } ?>
+  </div>
+<? undef ?>
+<? def end ?>
+  <script src="/static/component/modal/modal.js"></script>
+  <script src="/static/request.js"></script>
+  <script type="application/javascript">
+    const botList = document.getElementById('bot-list');
+    const add = document.getElementById('add-bot');
+    add.onclick = function() {
+      showModal('text', 'Choose a unique identifier for your bot.', async function(e, id) {
+        let res = JSON.parse(await request.post('/dev/new', {id}));
+        if (res.status === 'error') {
+          showModal('confirm', res.error);
+        } else {
+          document.location = res.redirect;
+        }
+      });
+    };
+  </script>
 <? undef ?>

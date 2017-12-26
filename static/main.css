@@ -38,6 +38,10 @@ a {
   text-decoration: none;
 }
 
+hr {
+  margin: 18px 0; padding: 0;
+}
+
 header, main, footer {
   width: 100%;
 }
@@ -90,7 +94,7 @@ footer {
 }
 
 .footer-link {
-  height: 24px;
-  margin: 0 4px;
+  margin-left: 12px;
+  display: inline-block;
   font-size: 24px;
 }

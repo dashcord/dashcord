@@ -3,14 +3,17 @@
   <link rel="stylesheet" href="/static/dev/main.css">
 <? undef ?>
 <? def nav ?>
-  <a class="nav-elem<? if (!req.path.startsWith('/dev/dash')) { ?> active<? } ?>" href="/dev">
+  <a class="nav-elem<? if (!req.url.startsWith('/dev/dash')) { ?> active<? } ?>" href="/dev">
     <p class="nav-elem-text">Home</p>
   </a>
   <a class="nav-elem" href="/">
     <p class="nav-elem-text">Guildowners</p>
   </a>
+  <a class="nav-elem" href="https://github.com/phantamanta44/dashcord/wiki" target="__BLANK" rel="noopener">
+    <p class="nav-elem-text">Documentation</p>
+  </a>
   <? if (req.user) { ?>
-    <a class="nav-elem<? if (req.path.startsWith('/dev/dash')) { ?> active<? } ?>" href="/dev/dash">
+    <a class="nav-elem<? if (req.url.startsWith('/dev/dash')) { ?> active<? } ?>" href="/dev/dash">
       <p class="nav-elem-text">Dashboard</p>
     </a>
     <a class="nav-elem" href="/logout">

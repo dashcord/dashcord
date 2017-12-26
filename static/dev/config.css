@@ -1,0 +1,77 @@
+#back-button {
+  margin: 16px;
+  color: #42A5F5;
+  font-size: 48px;
+}
+
+#back-button:hover {
+  background-color: #FFF;
+  color: #000;
+}
+
+.config-tab {
+  color: #FFF;
+  border-bottom: 1px solid #212121;
+}
+
+.config-tab:last-child {
+  border-bottom: none;
+}
+
+.config-tab-icon {
+  color: #42A5F5;
+}
+
+.config-tab.active, .config-tab:hover {
+  background-color: #FFF;
+  color: #000;
+}
+
+.config-tab.active > .config-tab-icon,
+.config-tab:hover > .config-tab-icon {
+  color: #000;
+}
+
+.config-field {
+  border-bottom: 1px solid #212121;
+}
+
+.config-field:last-of-type {
+  border-bottom: none;
+}
+
+.req {
+  color: #EF5350;
+  font-weight: normal;
+}
+
+input[type="text"].config-value {
+  background-color: #FFF;
+}
+
+input[type="text"].config-value:invalid {
+  box-shadow: 0 0 0 2px #EF5350;
+}
+
+button {
+  background: none;
+  color: #FFF;
+  border: 1px solid #FFF;
+}
+
+button > i {
+  color: #42A5F5;
+}
+
+#button-delete > i {
+  color: #EF5350;
+}
+
+button:hover {
+  background-color: #FFF;
+  color: #000;
+}
+
+button:hover > i, #button-delete:hover > i {
+  color: #000;
+}

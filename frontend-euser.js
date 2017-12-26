@@ -38,11 +38,15 @@ app.get('/dash').exec((req, ren) => {
   
 });
 
-app.get('/dash/:cid').exec((req, ren) => {
+app.get('/dash/:id').exec((req, ren) => {
   
 });
 
-app.post('/dash/:cid/update').withBody('json').exec((req, ren) => {
+app.get('/dash/:id/:gid').exec((req, ren) => {
+  
+});
+
+app.post('/dash/:id/:gid/update').withBody('json').exec((req, ren) => {
   
 });
 
