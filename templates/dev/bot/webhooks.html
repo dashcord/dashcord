@@ -30,7 +30,7 @@
   <form id="config-form" action="/dev/dash/<?= bot._id ?>/updatehooks" method="POST">
     <div class="config-field text">
       <h3 class="config-key">Webhooks</h3>
-      <p class="config-desc">Get notified via HTTP callback when a user modifies their configuration.</p>
+      <p class="config-desc">Get notified via HTTP callback when things happen.</p>
       <div id="webhook-list">
         <? for (const wh of bot.webhooks) { ?>
           <div class="webhook-elem">
@@ -38,9 +38,7 @@
             <i class="webhook-elem-edit mdi mdi-pencil"></i>
             <i class="webhook-elem-del mdi mdi-delete"></i>
             <select class="webhook-elem-event" name="<?= wh.url ?>">
-              <option value="change"<? if (wh.event === 'change') { ?> selected<? } ?>>Config Modified</option>
-              <option value="add"<? if (wh.event === 'add') { ?> selected<? } ?>>Bot Added</option>
-              <option value="remove"<? if (wh.event === 'remove') { ?> selected<? } ?>>Bot Removed</option>
+              <option value="change"<? if (wh.event === 'change') { ?> selected<? } ?>>On Config Modified</option>
             </select>
           </div>
         <? } ?>
@@ -81,9 +79,7 @@
 <i class="webhook-elem-edit mdi mdi-pencil"></i>
 <i class="webhook-elem-del mdi mdi-delete"></i>
 <select class="webhook-elem-event" name="${url}">
-  <option value="change" selected>Config Modified</option>
-  <option value="add">Bot Added</option>
-  <option value="remove">Bot Removed</option>
+  <option value="change" selected>On Config Modified</option>
 </select>`;
         whList.append(elem);
         bindControls(elem);

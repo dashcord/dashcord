@@ -92,7 +92,7 @@ app.post('/dev/dash/:cid/retoken').withBody('form').exec(async (req, ren) => {
   return redirect(`/dev/dash/${bot._id}?p=api`);
 });
 
-const whEvents = ['change', 'add', 'remove'];
+const whEvents = ['change'];
 app.post('/dev/dash/:cid/updatehooks').withBody('form').exec(async (req, ren) => {
   if (!req.user) throw new Floop(401);
   const bot = norm('bot', await masters.bots.findOne({_id: req.cid}));
