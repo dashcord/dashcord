@@ -1,6 +1,6 @@
 const {FloofBall, redirect, Floop} = require('floof');
 const {middleware, masters, botDb, generateToken,
-       newBotRecord, updateBot, norm} = require('./lib');
+       newBotRecord, updateBot, norm, layouts} = require('./lib');
 const {isWebUri} = require('valid-url');
 
 const app = middleware(new FloofBall());
@@ -116,6 +116,10 @@ app.post('/dev/dash/:cid/updatehooks').withBody('form').exec(async (req, ren) =>
       }
     }
   }
+  if (bot.webhooks.length > 3) {
+    bot.webhooks = bot.webhooks.slice(0, 3);
+    req.flash('Only 3 webhooks are allowed at this time!');
+  }
   // edge case for when all hooks are removed
   if (!bot.webhooks.length) success = true;
   for (const error of invalid) req.flash(error);
@@ -125,6 +129,103 @@ app.post('/dev/dash/:cid/updatehooks').withBody('form').exec(async (req, ren) =>
     req.flash(`Successfully updated webhooks for ${bot.name}!`);
   }
   return redirect(`/dev/dash/${bot._id}?p=webhooks`);
+});
+
+app.post('/dev/dash/:cid/updatepages').withBody('form').exec(async (req, ren) => {
+  if (!req.user) throw new Floop(401);
+  const bot = norm('bot', await masters.bots.findOne({_id: req.cid}));
+  if (!bot) throw new Floop(404);
+  if (bot.owner !== req.user.id) throw new Floop(403);
+  const body = await req.body();
+  const keys = Object.keys(body);
+  if (keys.length > 4) throw new Floop(400);
+  // edge case for when all pages are deleted
+  if (keys.length === 1 && body[""] === "") {
+    bot.pages = [];
+  } else {
+    const pages = new Array(keys.length);
+    for (const key of keys) {
+      const index = parseInt(key, 10);
+      if (isNaN(index) || index >= pages.length || index < 0 || !!pages[index]) {
+        throw new Floop(400);
+      }
+      pages[index] = body[key];
+    }
+    const seen = new Set();
+    bot.pages = pages.map(p => {
+      if (p.startsWith('!')) {
+        const name = p.substring(1);
+        if (name.length < 1 || name.length > 32) throw new Floop(400);
+        return {
+          title: p.substring(1),
+          subtitle: '',
+          icon: 'settings',
+          layout: 'full',
+          data: {},
+        };
+      } else {
+        const index = parseInt(p, 10);
+        if (!bot.pages[index] || seen.has(index)) throw new Floop(400);
+        seen.add(index);
+        return bot.pages[index];
+      }
+    });
+  }
+  await masters.bots.update({_id: bot._id}, bot);
+  req.flash(`Successfully updated dashboard pages for ${bot.name}!`);
+  return redirect(`/dev/dash/${bot._id}?p=controls`);
+});
+
+app.get('/dev/dash/:cid/page/:i').exec(async (req, ren) => {
+  if (!req.user) return redirect('login');
+  const bot = norm('bot', await masters.bots.findOne({_id: req.cid}));
+  if (!bot) throw new Floop(404, `There's no bot called "${req.cid}"!`);
+  if (bot.owner !== req.user.id) throw new Floop(403, 'You don\'t own that bot!');
+  const page = bot.pages[req.i];
+  if (!page) throw new Floop(404, `Couldn't find page at index ${req.i}!`);
+  return ren.render('dev/bot/page.html', {bot, page, layouts});
+});
+
+app.post('/dev/dash/:cid/page/:i').withBody('form').exec(async (req, ren) => {
+  if (!req.user) throw new Floop(401);
+  const bot = norm('bot', await masters.bots.findOne({_id: req.cid}));
+  if (!bot) throw new Floop(404);
+  if (bot.owner !== req.user.id) throw new Floop(403);
+  const page = bot.pages[req.i];
+  if (!page) throw new Floop(404);
+  const index = bot.pages.indexOf(page);
+  const body = await req.body();
+  if (!body.title || !body.subtitle || !body.icon || !body.layout) throw new Floop(400);
+  if (body.title.length < 1 || body.title.length > 32) throw new Floop(400);
+  if (body.subtitle.length > 64) throw new Floop(400);
+  if (body.icon.length > 24 || !/^[\w-]*$/.test(body.icon)) throw new Floop(400);
+  if (!layouts.hasOwnProperty(body.layout)) throw new Floop(400);
+  bot.pages[index] = {
+    title: body.title,
+    subtitle: body.subtitle,
+    icon: body.icon,
+    layout: body.layout,
+    data: {},
+  };
+  masters.bots.update({_id: bot._id}, bot);
+  req.flash(`Successfully updated page ${page.title} for ${bot.name}!`);
+  return redirect(`/dev/dash/${bot._id}/page/${index}`)
+});
+
+app.get('/dev/dash/:cid/page/:i/layout').withQuery('t', 'str').exec(async (req, ren) => {
+  if (!req.user) throw new Floop(401);
+  const bot = norm('bot', await masters.bots.findOne({_id: req.cid}));
+  if (!bot) throw new Floop(404);
+  if (bot.owner !== req.user.id) throw new Floop(403);
+  const page = bot.pages[req.i];
+  if (!page) throw new Floop(404);
+  if (!req.t || page.layout === req.t) {
+    
+  } else {
+    const layout = layouts[req.t];
+    if (!layout) throw new Floop(404);
+    return layout.renderDev(ren);
+  }
 });
 
 app.error().forCodes(400, 600)

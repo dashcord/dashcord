@@ -50,7 +50,7 @@ main {
 .config-key {
   font-size: 20pt;
   font-weight: bold;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .config-desc {
@@ -58,13 +58,35 @@ main {
   margin-bottom: 4px;
 }
 
-input[type="text"].config-value,
-input[type="url"].config-value{
-  width: 100%;
-  margin: 10px auto 0; padding: 8px;
-  border-radius: 4px;
-  border: none; outline: none;
+input.config-value, select.config-value {
+  line-height: 1.21em;
+  font-size: 12pt;
+  font-weight: normal;
+  font-family: 'Calamity', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  outline: none;
+  box-shadow: none;
+  appearance: none;
   -webkit-appearance: none;
+}
+
+input[type="text"].config-value,
+input[type="url"].config-value {
+  width: 100%;
+  margin: 10px auto 0; padding: 6px 8px;
+  border-radius: 4px;
+  border: none;
+}
+
+select.config-value {
+  margin: 10px auto 0; padding: 4.5px 6px;
+  padding-right: calc(6px + 1.25em);
+  background: #fff;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAAWElEQVRoge3VMQqAUBAD0Rw95d5aq9hYqKBfAvMg/XSRAAAAAADAUyNpe2mzuP3gG3FX8+LmE6s4Pqzi+LCK48Mqjg+rOD6s4viwiuNj9ONJAQAAAAC+tAPx/2PHUMmYLAAAAABJRU5ErkJggg==);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 button {

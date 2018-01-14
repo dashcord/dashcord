@@ -3,7 +3,7 @@
   <link rel="stylesheet" href="/static/component/modal/modal.css">
   <style>
     #webhook-list {
-      margin: 6px 0 10px;
+      margin: 8px 0;
     }
     
     .webhook-elem {
@@ -20,7 +20,12 @@
       cursor: pointer;
     }
     
-    .webhook-elem > i:hover {
+    .webhook-elem > i.webhook-elem-del {
+      color: #EF5350;
+    }
+    
+    .webhook-elem > i:hover,
+    .webhook-elem > i.webhook-elem-del:hover {
       background-color: #FFF;
       color: #000;
     }
@@ -28,7 +33,7 @@
 <? undef ?>
 <? def config ?>
   <form id="config-form" action="/dev/dash/<?= bot._id ?>/updatehooks" method="POST">
-    <div class="config-field text">
+    <div class="config-field">
       <h3 class="config-key">Webhooks</h3>
       <p class="config-desc">Get notified via HTTP callback when things happen.</p>
       <div id="webhook-list">

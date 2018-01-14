@@ -14,19 +14,19 @@
   </div>
   <div id="pane-bottom">
     <div id="pane-left">
-      <a class="config-tab<? if (page === 'general') { ?> active<? } ?>" href="?p=general">
+      <a class="config-tab<? if (page === 'general') { ?> active<? } ?>" href="/dev/dash/<?= bot._id ?>?p=general">
         <i class="config-tab-icon mdi mdi-settings"></i>
         <p class="config-tab-label">General</p>
       </a>
-      <a class="config-tab<? if (page === 'controls') { ?> active<? } ?>" href="?p=controls">
+      <a class="config-tab<? if (page === 'controls') { ?> active<? } ?>" href="/dev/dash/<?= bot._id ?>?p=controls">
         <i class="config-tab-icon mdi mdi-clipboard-text"></i>
-        <p class="config-tab-label">Control Panel</p>
+        <p class="config-tab-label">Dashboard</p>
       </a>
-      <a class="config-tab<? if (page === 'api') { ?> active<? } ?>" href="?p=api">
+      <a class="config-tab<? if (page === 'api') { ?> active<? } ?>" href="/dev/dash/<?= bot._id ?>?p=api">
         <i class="config-tab-icon mdi mdi-cube-send"></i>
         <p class="config-tab-label">API Access</p>
       </a>
-      <a class="config-tab<? if (page === 'webhooks') { ?> active<? } ?>" href="?p=webhooks">
+      <a class="config-tab<? if (page === 'webhooks') { ?> active<? } ?>" href="/dev/dash/<?= bot._id ?>?p=webhooks">
         <i class="config-tab-icon mdi mdi-webhook"></i>
         <p class="config-tab-label">Webhooks</p>
       </a>

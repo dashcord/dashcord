@@ -7,6 +7,16 @@ hr {
   border-color: #212121;
 }
 
+a {
+  color: #5C6BC0;
+  text-decoration: none;
+}
+
+a:hover {
+  background-color: #FFF;
+  color: #000;
+}
+
 header {
   border-bottom: 1px solid #212121;
 }

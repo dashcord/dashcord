@@ -1,0 +1,88 @@
+<? extends dev/bot/parent.html ?>
+<? def head-child ?>
+  <link rel="stylesheet" href="/static/component/modal/modal.css">
+  <style>
+    i:before {
+      content: "\F2D6"
+    }
+    
+    #c-icon-container {
+      margin-top: 10px;
+      font-size: 0;
+    }
+    
+    #c-icon-preview, #c-icon {
+      margin: 0;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    
+    #c-icon-preview {
+      width: 24px;
+      margin-right: 8px;
+      font-size: 24px;
+    }
+    
+    #c-icon {
+      width: calc(100% - 32px);
+      font-size: 12pt;
+    }
+  </style>
+<? undef ?>
+<? def config ?>
+  <form id="config-form" action="/dev/dash/<?= bot._id ?>/page/<?= req['i'] ?>" method="POST">
+    <div class="config-field text">
+      <h3 class="config-key">Page Title</h3>
+      <p class="config-desc">The title displayed in the page heading.</p>
+      <input type="text" id="c-title" class="config-value" name="title" value="<?= page.title ?>" required maxlength="32">
+    </div>
+    <div class="config-field text">
+      <h3 class="config-key">Page Subtitle</h3>
+      <p class="config-desc">The subtitle displayed in the page heading.</p>
+      <input type="text" id="c-subtitle" class="config-value" name="subtitle" value="<?= page.subtitle ?>" maxlength="64">
+    </div>
+    <div class="config-field text">
+      <h3 class="config-key">Sidebar Icon</h3>
+      <p class="config-desc">The icon representing this page. Supports any <a href="//materialdesignicons.com" target="__blank" rel="noopener">MDI</a> icon.</p>
+      <div id="c-icon-container">
+        <i id="c-icon-preview" class="mdi mdi-<?= page.icon ?>"></i>
+        <input type="text" id="c-icon" class="config-value" name="icon" value="<?= page.icon ?>" maxlength="24" pattern="[\w-]*">
+      </div>
+    </div>
+    <div class="config-field select">
+      <h3 class="config-key">Page Layout</h3>
+      <p class="config-desc">The <a href="#" target="__blank" rel="noopener">layout</a> of this page.</p>
+      <select id="c-layout" class="config-value" name="layout">
+        <? for (const layout of layouts) { ?>
+          <option value="<?= layout.id ?>"<? if (page.layout === layout.id) { ?> selected <? } ?>><?= layout.name ?></option>
+        <? } ?>
+      </select>
+    </div>
+    <div class="config-field">
+      <h3 class="config-key">Layout Configuration</h3>
+      <p class="config-desc">Configure the dashboard components displayed on this page.</p>
+      <div id="layout" class="config-value"></div>
+    </div>
+    <div class="config-field">
+      <button id="button-submit"><i class="mdi mdi-content-save"></i> Save</button>
+    </div>
+  </form>
+<? undef ?>
+<? def end ?>
+  <script src="/static/component/modal/modal.js"></script>
+  <script src="/static/request.js"></script>
+  <script type="application/javascript">
+    const cIcon = document.getElementById('c-icon');
+    const cIconPrev = document.getElementById('c-icon-preview');
+    cIcon.onkeydown = function() {
+      window.setTimeout(function() {
+        cIconPrev.setAttribute('class', `mdi mdi-${cIcon.value}`);
+      }, 1);
+    };
+    const layoutDiv = document.getElementById('layout');
+    function setLayout(layout) {
+    
+    }
+    setLayout(layouts[<?= page.layout ?>]);
+  </script>
+<? undef ?>

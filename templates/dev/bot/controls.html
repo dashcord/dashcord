@@ -1,14 +1,142 @@
 <? extends dev/bot/parent.html ?>
 <? def head-child ?>
-  <style></style>
+  <link rel="stylesheet" href="/static/component/modal/modal.css">
+  <style>
+    #page-list {
+      margin: 8px 0;
+    }
+    
+    .page-node {
+      padding: 6px 0 7px 8px;
+      border-bottom: 1px solid #212121;
+    }
+    
+    .page-node:last-of-type {
+      border-bottom: none;
+    }
+    
+    .page-node > i {
+      color: #42A5F5;
+      cursor: pointer;
+    }
+    
+    .page-node > i.page-node-del {
+      color: #EF5350;
+    }
+    
+    #page-list.changed > .page-node > i.page-node-edit {
+      cursor: initial;
+      background-color: transparent;
+      color: #546E7A;
+    }
+    
+    .page-node > i:hover,
+    .page-node > i.page-node-del:hover {
+      background-color: #FFF;
+      color: #000;
+    }
+    
+    .page-node:first-child > i.page-node-up,
+    .page-node:last-child > i.page-node-down {
+      cursor: initial;
+      background-color: transparent;
+      color: #546E7A;
+    }
+  </style>
 <? undef ?>
 <? def config ?>
-  <div class="config-field text">
-    <h3 class="config-key">Config Field</h3>
-    <p class="config-desc">I am a config field!</p>
-    <input type="text" class="config-value" name="token" value="<?= bot.name ?>">
-  </div>
-  <div class="config-field">
-    <button id="button-submit"><i class="mdi mdi-content-save"></i> Save</button>
-  </div>
+  <form id="config-form" action="/dev/dash/<?= bot._id ?>/updatepages" method="POST">
+    <div class="config-field">
+      <h3 class="config-key">Dashboard Pages</h3>
+      <p class="config-desc">The various panels to display to your users.</p>
+      <div id="page-list">
+        <? for (let i = 0; i < bot.pages.length; i++) { ?>
+          <div class="page-node">
+            <input type="hidden" value="<?= i ?>">
+            <span class="page-node-title"><?= bot.pages[i].title ?></span>
+            <i class="page-node-edit mdi mdi-pencil"></i>
+            <i class="page-node-up mdi mdi-arrow-up-bold"></i>
+            <i class="page-node-down mdi mdi-arrow-down-bold"></i>
+            <i class="page-node-del mdi mdi-delete"></i>
+          </div>
+        <? } ?>
+      </div>
+      <button id="button-add" type="button"><i class="mdi mdi-note-plus"></i> New Page</button>
+    </div>
+    <div class="config-field">
+      <button id="button-submit" type="button"><i class="mdi mdi-content-save"></i> Save</button>
+    </div>
+  </form>
+<? undef ?>
+<? def end ?>
+  <script src="/static/component/modal/modal.js"></script>
+  <script type="application/javascript">
+    const pageList = document.getElementById('page-list');
+    const btnAdd = document.getElementById('button-add');
+    const btnSubmit = document.getElementById('button-submit');
+    function disableEdit() {
+      pageList.setAttribute('class', 'changed');
+    }
+    function bindControls(pg) {
+      pg.children[2].onclick = function() {
+        if (!pageList.classList || !pageList.classList.contains('changed')) {
+          document.location = `/dev/dash/<?= bot._id ?>/page/${pg.children[0].value}`;
+        }
+      };
+      pg.children[3].onclick = function() {
+        let index = [...pageList.children].indexOf(pg);
+        if (index === 0) return;
+        disableEdit();
+        let swap = pageList.children[index - 1];
+        pageList.insertBefore(pg, swap);
+      };
+      pg.children[4].onclick = function() {
+        let index = [...pageList.children].indexOf(pg);
+        if (index === pageList.childElementCount - 1) return;
+        disableEdit();
+        let swap = pageList.children[index + 1];
+        pageList.insertBefore(swap, pg);
+      };
+      pg.children[5].onclick = function() {
+        showModal('boolean', `Remove the page ${pg.children[1].innerText}?`, function() {
+          disableEdit();
+          pg.remove();
+        });
+      };
+    }
+    for (const pg of document.getElementsByClassName('page-node')) {
+      bindControls(pg);
+    }
+    btnAdd.onclick = function() {
+      if (pageList.childElementCount >= 4) {
+        showModal('confirm', 'Only 4 dashboard pages are allowed at this time!');
+        return;
+      }
+      showModal('text', 'Choose a title for your new page.', function(e, title) {
+        title = title.trim();
+        if (title.length < 1 || title.length > 32) {
+          window.setTimeout(function() {
+            showModal('confirm', 'Page title must be between 1 and 32 characters long!');
+          }, 250);
+        } else {
+          disableEdit();
+          const elem = document.createElement('div');
+          elem.setAttribute('class', 'page-node');
+          elem.innerHTML = `<input type="hidden" value="!${title}">
+<span class="page-node-title">${title}</span>
+<i class="page-node-edit mdi mdi-pencil"></i>
+<i class="page-node-up mdi mdi-arrow-up-bold"></i>
+<i class="page-node-down mdi mdi-arrow-down-bold"></i>
+<i class="page-node-del mdi mdi-delete"></i>`;
+          pageList.append(elem);
+          bindControls(elem);
+        }
+      });
+    };
+    btnSubmit.onclick = function() {
+      const pages = document.getElementsByClassName('page-node');
+      for (let i = 0; i < pages.length; i++) pages[i].children[0].setAttribute('name', i);
+      btnSubmit.form.submit();
+    };
+  </script>
 <? undef ?>
