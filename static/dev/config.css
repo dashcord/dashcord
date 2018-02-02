@@ -65,6 +65,16 @@ button > i {
   color: #42A5F5;
 }
 
+button.disabled, button.disabled:hover {
+  border-color: #CCC;
+  color: #CCC;
+  background-color: transparent;
+}
+
+button.disabled > i, button.disabled:hover > i {
+  color: #AAA;
+}
+
 #button-delete > i {
   color: #EF5350;
 }

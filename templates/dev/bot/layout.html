@@ -1,0 +1,71 @@
+<? extends dev/bot/parent.html ?>
+<? def head-child ?>
+  <link rel="stylesheet" href="/static/component/modal/modal.css">
+  <style>
+    
+  </style>
+<? undef ?>
+<? def config ?>
+  <div id="selector-base" style="display: none;">
+    <select>
+      <? for (const type of types) { ?>
+        <option value=<?= type.id ?>><?= type.name ?></option>
+      <? } ?>
+    </select>  
+  </div>
+  <div class="config-field">
+    <?- layout ?>
+  </div>
+  <div class="config-field">
+    <button id="button-submit"><i class="mdi mdi-content-save"></i> Save</button>
+  </div>
+<? undef ?>
+<? def end ?>
+  <script src="/static/component/modal/modal.js"></script>
+  <script src="/static/request.js"></script>
+  <script type="application/javascript">
+    const comps = (function(compDivs) {
+      return (function(comps) {
+        for (const comp of compDivs) comps[comp.getAttribute('data-index')] = comp;
+        return comps;
+      })(new Array(compDivs.length));
+    })(document.getElementsByClassName('component'));
+    const selectorBase = document.getElementById('selector-base').children[0];
+    selectorBase.parentElement.remove();
+    async function renderComp(comp) {
+      const index = comp.getAttribute('data-index'), type = comp.getAttribute('data-type');
+      let result;
+      try {
+        result = await request.get(`/dev/dash/<?= bot._id ?>/page/<?= req.i ?>/layout/${index}?t=${type}`);
+      } catch (e) {
+        console.error(e);
+        result = `<div class="comp-error">${e.message}</div>`;
+      }
+      comp.innerHTML = result;
+      const script = comp.querySelector('script');
+      if (script) {
+        script.remove();
+        (new Function('e', script.innerHTML))(comp);
+      }
+      const selector = selectorBase.cloneNode(true);
+      comp.prepend(selector);
+      selector.value = type;
+      selector.onchange = function() {
+        comp.innerHTML = '';
+        comp.setAttribute('data-type', selector.value);
+        renderComp(comp);
+      };
+    }
+    for (const comp of comps) renderComp(comp);
+    const btnSubmit = document.getElementById('button-submit');
+    btnSubmit.onclick = async function() {
+      try {
+        const payload = comps.map(comp => comp.jsonify());
+        await request.post('/dev/dash/<?= bot._id ?>/page/<?= req.i ?>/layout', payload);
+        document.location.reload();
+      } catch (e) {
+        showModal('confirm', `Failed to save \u2014 ${e.message}!`);
+      }
+    };
+  </script>
+<? undef ?>

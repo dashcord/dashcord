@@ -2,9 +2,7 @@
 <? def head-child ?>
   <link rel="stylesheet" href="/static/component/modal/modal.css">
   <style>
-    i:before {
-      content: "\F2D6"
-    }
+    i:before { content: "\F2D6" }
     
     #c-icon-container {
       margin-top: 10px;
@@ -30,7 +28,7 @@
   </style>
 <? undef ?>
 <? def config ?>
-  <form id="config-form" action="/dev/dash/<?= bot._id ?>/page/<?= req['i'] ?>" method="POST">
+  <form id="config-form" action="/dev/dash/<?= bot._id ?>/page/<?= req.i ?>" method="POST">
     <div class="config-field text">
       <h3 class="config-key">Page Title</h3>
       <p class="config-desc">The title displayed in the page heading.</p>
@@ -53,7 +51,7 @@
       <h3 class="config-key">Page Layout</h3>
       <p class="config-desc">The <a href="#" target="__blank" rel="noopener">layout</a> of this page.</p>
       <select id="c-layout" class="config-value" name="layout">
-        <? for (const layout of layouts) { ?>
+        <? for (const layout of Object.values(layouts)) { ?>
           <option value="<?= layout.id ?>"<? if (page.layout === layout.id) { ?> selected <? } ?>><?= layout.name ?></option>
         <? } ?>
       </select>
@@ -61,7 +59,7 @@
     <div class="config-field">
       <h3 class="config-key">Layout Configuration</h3>
       <p class="config-desc">Configure the dashboard components displayed on this page.</p>
-      <div id="layout" class="config-value"></div>
+      <button id="button-layout" class="config-value" type="button"><i class="mdi mdi-wrench"></i> Configure!</button>
     </div>
     <div class="config-field">
       <button id="button-submit"><i class="mdi mdi-content-save"></i> Save</button>
@@ -70,7 +68,6 @@
 <? undef ?>
 <? def end ?>
   <script src="/static/component/modal/modal.js"></script>
-  <script src="/static/request.js"></script>
   <script type="application/javascript">
     const cIcon = document.getElementById('c-icon');
     const cIconPrev = document.getElementById('c-icon-preview');
@@ -79,10 +76,21 @@
         cIconPrev.setAttribute('class', `mdi mdi-${cIcon.value}`);
       }, 1);
     };
-    const layoutDiv = document.getElementById('layout');
-    function setLayout(layout) {
-    
-    }
-    setLayout(layouts[<?= page.layout ?>]);
+    const cLayout = document.getElementById('c-layout');
+    const btnLayout = document.getElementById('button-layout');
+    btnLayout.onclick = function() {
+      if (!btnLayout.classList.contains('disabled')) {
+        document.location = '/dev/dash/<?= bot._id ?>/page/<?= req.i ?>/layout';
+      }
+    };
+    let currentLayout = cLayout.value;
+    cLayout.onchange = function() {
+      showModal('boolean', 'Changing this will clear your component configurations! Are you sure?', function() {
+        btnLayout.classList.add('disabled');
+        currentLayout = cLayout.value;
+      }, function() {
+        cLayout.value = currentLayout;
+      });
+    };
   </script>
 <? undef ?>

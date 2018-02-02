@@ -2,7 +2,7 @@ h2 {
   margin: 0;
 }
 
-main {
+body > main {
   padding-left: 5.5%; padding-right: 5.5%;
 }
 
@@ -58,6 +58,10 @@ main {
   margin-bottom: 4px;
 }
 
+.config-value {
+  margin: 10px auto 0;
+}
+
 input.config-value, select.config-value {
   line-height: 1.21em;
   font-size: 12pt;
@@ -72,13 +76,13 @@ input.config-value, select.config-value {
 input[type="text"].config-value,
 input[type="url"].config-value {
   width: 100%;
-  margin: 10px auto 0; padding: 6px 8px;
+  padding: 6px 8px;
   border-radius: 4px;
   border: none;
 }
 
 select.config-value {
-  margin: 10px auto 0; padding: 4.5px 6px;
+  padding: 4.5px 6px;
   padding-right: calc(6px + 1.25em);
   background: #fff;
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAAWElEQVRoge3VMQqAUBAD0Rw95d5aq9hYqKBfAvMg/XSRAAAAAADAUyNpe2mzuP3gG3FX8+LmE6s4Pqzi+LCK48Mqjg+rOD6s4viwiuNj9ONJAQAAAAC+tAPx/2PHUMmYLAAAAABJRU5ErkJggg==);
@@ -95,4 +99,8 @@ button {
   -webkit-appearance: none;
   border: none; outline: none;
   cursor: pointer;
+}
+
+button.disabled {
+  cursor: not-allowed;
 }

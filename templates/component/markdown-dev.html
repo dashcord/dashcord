@@ -1,0 +1,9 @@
+<textarea class="input-code"><?- unrenderedMd ?></textarea>
+<script>
+  e.jsonify = function() {
+    return {
+      type: 'markdown',
+      md: e.children[1].value,
+    };
+  }
+</script>

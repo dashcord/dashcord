@@ -1,6 +1,6 @@
 const {FloofBall, redirect, Floop} = require('floof');
 const {middleware, masters, botDb, generateToken,
-       newBotRecord, updateBot, norm, layouts} = require('./lib');
+       newBotRecord, updateBot, norm, layouts, compRegistry} = require('./lib');
 const {isWebUri} = require('valid-url');
 
 const app = middleware(new FloofBall());
@@ -36,7 +36,7 @@ app.post('/dev/new').withBody('json').exec(async (req, ren) => {
 
 const pages = ['general', 'controls', 'api', 'webhooks'];
 app.get('/dev/dash/:cid').withQuery('p', 'str').exec(async (req, ren) => {
-  if (!req.user) return redirect('login');
+  if (!req.user) return redirect('/login');
   const bot = norm('bot', await masters.bots.findOne({_id: req.cid}));
   if (!bot) throw new Floop(404, `There's no bot called "${req.cid}"!`);
   if (bot.owner !== req.user.id) throw new Floop(403, 'You don\'t own that bot!');
@@ -71,7 +71,7 @@ app.post('/dev/dash/:cid/update').withBody('form').exec(async (req, ren) => {
 });
 
 app.get('/dev/dash/:cid/delete').exec(async (req, ren) => {
-  if (!req.user) return redirect('login');
+  if (!req.user) return redirect('/login');
   const bot = await masters.bots.findOne({_id: req.cid});
   if (!bot) throw new Floop(404, `There's no bot called "${req.cid}"!`);
   if (bot.owner !== req.user.id) throw new Floop(401, 'You don\'t own that bot!');
@@ -177,7 +177,7 @@ app.post('/dev/dash/:cid/updatepages').withBody('form').exec(async (req, ren) =>
 });
 
 app.get('/dev/dash/:cid/page/:i').exec(async (req, ren) => {
-  if (!req.user) return redirect('login');
+  if (!req.user) return redirect('/login');
   const bot = norm('bot', await masters.bots.findOne({_id: req.cid}));
   if (!bot) throw new Floop(404, `There's no bot called "${req.cid}"!`);
   if (bot.owner !== req.user.id) throw new Floop(403, 'You don\'t own that bot!');
@@ -205,27 +205,77 @@ app.post('/dev/dash/:cid/page/:i').withBody('form').exec(async (req, ren) => {
     subtitle: body.subtitle,
     icon: body.icon,
     layout: body.layout,
-    data: {},
+    data: body.layout !== page.layout ? {} : page.data,
   };
   masters.bots.update({_id: bot._id}, bot);
   req.flash(`Successfully updated page ${page.title} for ${bot.name}!`);
   return redirect(`/dev/dash/${bot._id}/page/${index}`)
 });
 
-app.get('/dev/dash/:cid/page/:i/layout').withQuery('t', 'str').exec(async (req, ren) => {
+app.get('/dev/dash/:cid/page/:i/layout').exec(async (req, ren) => {
+  if (!req.user) return redirect('/login');
+  const bot = norm('bot', await masters.bots.findOne({_id: req.cid}));
+  if (!bot) throw new Floop(404, `There's no bot called "${req.cid}"!`);
+  if (bot.owner !== req.user.id) throw new Floop(403, 'You don\'t own that bot!');
+  const page = bot.pages[req.i];
+  if (!page) throw new Floop(404, `Couldn't find page at index ${req.i}!`);
+  const layout = await layouts[page.layout].render(ren, page);
+  return ren.render('dev/bot/layout.html', {bot, page, layout, types: compRegistry.registry.values()});
+});
+
+app.post('/dev/dash/:cid/page/:i/layout').withBody('json').exec(async (req, ren) => {
   if (!req.user) throw new Floop(401);
   const bot = norm('bot', await masters.bots.findOne({_id: req.cid}));
   if (!bot) throw new Floop(404);
   if (bot.owner !== req.user.id) throw new Floop(403);
   const page = bot.pages[req.i];
   if (!page) throw new Floop(404);
-  if (!req.t || page.layout === req.t) {
-    
-  } else {
-    const layout = layouts[req.t];
-    if (!layout) throw new Floop(404);
-    return layout.renderDev(ren);
+  const body = await req.body();
+  if (!Array.isArray(body) || body.length !== layouts[page.layout].comps) throw new Floop(400);
+  const wrapped = new Array(layouts[page.layout].comps);
+  for (let i = 0; i < wrapped.length; i++) {
+    if (page.comps[i] && page.comps[i].type === body[i].type) {
+      wrapped[i] = compRegistry.resolve(page.comps[i]);
+      try {
+        wrapped[i].update(body[i]);
+      } catch (e) {
+        throw new Floop(400, e.message);
+      }
+    } else {
+      try {
+        wrapped[i] = compRegistry.resolve(body[i]);
+      } catch (e) {
+        throw new Floop(400, e.message);
+      }
+      if (!wrapped[i]) throw new Floop(400, 'Invalid component type');
+    }
   }
+  page.comps = wrapped.map(comp => comp.json);
+  masters.bots.update({_id: bot._id}, bot);
+  req.flash(`Successfully updated page ${page.title} for ${bot.name}!`);
+});
+
+app.get('/dev/dash/:cid/page/:i/layout/:j').withQuery('t', 'str').exec(async (req, ren) => {
+  if (!req.user) throw new Floop(401);
+  const bot = norm('bot', await masters.bots.findOne({_id: req.cid}));
+  if (!bot) throw new Floop(404, 'Bot not found');
+  if (bot.owner !== req.user.id) throw new Floop(403);
+  const page = bot.pages[req.i];
+  if (!page) throw new Floop(404, 'Page not found');
+  let comp = page.comps[req.j];
+  if (!comp) {
+    if (req.t) {
+      comp = compRegistry.create(req.t);
+      if (!comp) throw new Floop(400);
+    } else {
+      throw new Floop(404, 'Component not found');
+    }
+  } else if (req.t && req.t !== comp.type) {
+    comp = compRegistry.create(req.t);
+  } else {
+    comp = compRegistry.resolve(comp);
+  }
+  return await comp.renderDev(ren);
 });
 
 app.error().forCodes(400, 600)
