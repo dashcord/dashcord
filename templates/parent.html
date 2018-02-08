@@ -22,7 +22,7 @@
     </header>
     <div id="flashes">
       <? for (const flash of req.flashes) { ?>
-        <div class="flash">
+        <div class="flash" onclick="this.classList.add('hidden')">
           <p><?= flash ?></p>
         </div>
       <? } ?>

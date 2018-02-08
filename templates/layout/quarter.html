@@ -1,0 +1,31 @@
+<style>
+  #layout-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+  }
+  .comp-row {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    flex: 1;
+  }
+  #top-row-comp {
+    margin-bottom: 10px;
+  }
+  .component {
+    height: 100%;
+    flex: 1;
+  }
+  .component.first-comp {
+    margin-right: 10px;
+  }
+</style>
+<div id="top-row-comp" class="comp-row">
+  <div class="component first-comp" data-index="0" data-type="<?= data.comps[0].type ?>"></div>
+  <div class="component" data-index="1" data-type="<?= data.comps[1].type ?>"></div>
+</div>
+<div class="comp-row">
+  <div class="component first-comp" data-index="2" data-type="<?= data.comps[2].type ?>"></div>
+  <div class="component" data-index="3" data-type="<?= data.comps[3].type ?>"></div>
+</div>

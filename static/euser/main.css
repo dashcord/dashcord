@@ -26,6 +26,10 @@ header {
   background-color: #ECEFF1;
 }
 
+.flash:hover {
+  background-color: #CFD8DC;
+}
+
 footer {
   border-top: 1px solid #DEDEDE;
 }

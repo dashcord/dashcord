@@ -22,7 +22,9 @@ if (process.env.DASHCORD_DEBUG === 'true') {
   const watcher = require('chokidar').watch('templates', {disableGlobbing: true});
   function recompile(fn) {
     logs.debug(`${fn} changed!`);
-    app.renderer.recompile();
+    setTimeout(function() {
+      app.renderer.recompile();
+    }, 250);
   }
   watcher.on('ready', function() {
     watcher.on('change', recompile).on('add', recompile).on('unlink', recompile);

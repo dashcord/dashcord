@@ -1,0 +1,17 @@
+<style>
+  #layout-container {
+    display: flex;
+    flex-flow: row;
+  }
+  .component {
+    height: 100%;
+    flex: 1;
+  }
+  #left-component {
+    margin-right: 10px;
+    padding-right: 10px;
+    border-right: 1px solid #212121;
+  }
+</style>
+<div id="left-component" class="component" data-index="0" data-type="<?= data.comps[0].type ?>"></div>
+<div class="component" data-index="1" data-type="<?= data.comps[1].type ?>"></div>

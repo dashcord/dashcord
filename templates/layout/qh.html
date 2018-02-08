@@ -1,0 +1,28 @@
+<style>
+  #layout-container {
+    display: flex;
+    flex-flow: row;
+  }
+  .component {
+    height: 100%;
+    flex: 1;
+  }
+  #h-comp, #q-comps { flex: 1; }
+  #q-comps {
+    margin-right: 10px;
+    padding-right: 10px;
+    display: flex;
+    flex-flow: column;
+    border-right: 1px solid #212121;
+  }
+  #t-comp {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #212121;
+  }
+</style>
+<div id="q-comps">
+  <div id="t-comp" class="component" data-index="0" data-type="<?= data.comps[0].type ?>"></div>
+  <div class="component" data-index="1" data-type="<?= data.comps[1].type ?>"></div>
+</div>
+<div id="h-comp" class="component" data-index="2" data-type="<?= data.comps[2].type ?>"></div>

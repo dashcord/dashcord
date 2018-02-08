@@ -15,6 +15,9 @@
 }
 
 body {
+  min-height: 100vh;
+  display: flex;
+  flex-flow: column;
   font-family: 'Calamity', 'Roboto', 'Helvetica', 'Arial', sans-serif;
   overflow-x: hidden;
 }
@@ -75,10 +78,20 @@ header {
 
 .flash {
   padding: 18px 5.5%;
+  transition: height 0.2s, padding 0.2s, background-color 0.2s;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.flash.hidden {
+  height: 0;
+  padding: 0 5.5%;
+  border: none;
 }
 
 main {
   padding: 28px 0;
+  flex: 1;
 }
 
 footer {

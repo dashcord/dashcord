@@ -195,11 +195,16 @@ app.post('/dev/dash/:cid/page/:i').withBody('form').exec(async (req, ren) => {
   if (!page) throw new Floop(404);
   const index = bot.pages.indexOf(page);
   const body = await req.body();
-  if (!body.title || !body.subtitle || !body.icon || !body.layout) throw new Floop(400);
-  if (body.title.length < 1 || body.title.length > 32) throw new Floop(400);
-  if (body.subtitle.length > 64) throw new Floop(400);
-  if (body.icon.length > 24 || !/^[\w-]*$/.test(body.icon)) throw new Floop(400);
-  if (!layouts.hasOwnProperty(body.layout)) throw new Floop(400);
+  if (!body.hasOwnProperty('title')
+      || !body.hasOwnProperty('subtitle')
+      || !body.hasOwnProperty('icon')
+      || !body.hasOwnProperty('layout')) {
+    throw new Floop(400, 'Missing parameters');
+  }
+  if (body.title.length < 1 || body.title.length > 32) throw new Floop(400, 'Bad title');
+  if (body.subtitle.length > 64) throw new Floop(400, 'Bad subtitle');
+  if (body.icon.length > 24 || !/^[\w-]*$/.test(body.icon)) throw new Floop(400, 'Bad icon');
+  if (!layouts.hasOwnProperty(body.layout)) throw new Floop(400, 'Bad layout');
   bot.pages[index] = {
     title: body.title,
     subtitle: body.subtitle,

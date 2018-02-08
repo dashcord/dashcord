@@ -1,29 +1,32 @@
 <? extends dev/bot/parent.html ?>
 <? def head-child ?>
   <link rel="stylesheet" href="/static/component/modal/modal.css">
-  <style>
-    
-  </style>
+  <link rel="stylesheet" href="/static/dev/layout.css">
 <? undef ?>
 <? def config ?>
   <div id="selector-base" style="display: none;">
-    <select>
-      <? for (const type of types) { ?>
-        <option value=<?= type.id ?>><?= type.name ?></option>
-      <? } ?>
-    </select>  
+    <div class="type-selector">
+      <p>Component Type:</p>
+      <select class="config-value">
+        <? for (const type of types) { ?>
+          <option value=<?= type.id ?>><?= type.name ?></option>
+        <? } ?>
+      </select>
+    </div>
   </div>
-  <div class="config-field">
+  <div id="layout-container" class="config-field">
     <?- layout ?>
   </div>
   <div class="config-field">
     <button id="button-submit"><i class="mdi mdi-content-save"></i> Save</button>
+    <button id="button-delete"><i class="mdi mdi-undo-variant"></i> Cancel</button>
   </div>
 <? undef ?>
 <? def end ?>
   <script src="/static/component/modal/modal.js"></script>
   <script src="/static/request.js"></script>
   <script type="application/javascript">
+    const parentPage = '/dev/dash/<?= bot._id ?>/page/<?= req.i ?>';
     const comps = (function(compDivs) {
       return (function(comps) {
         for (const comp of compDivs) comps[comp.getAttribute('data-index')] = comp;
@@ -49,6 +52,7 @@
       }
       const selector = selectorBase.cloneNode(true);
       comp.prepend(selector);
+      comp.classList.add(`comp-${type}`);
       selector.value = type;
       selector.onchange = function() {
         comp.innerHTML = '';
@@ -62,10 +66,14 @@
       try {
         const payload = comps.map(comp => comp.jsonify());
         await request.post('/dev/dash/<?= bot._id ?>/page/<?= req.i ?>/layout', payload);
-        document.location.reload();
+        document.location = parentPage;
       } catch (e) {
         showModal('confirm', `Failed to save \u2014 ${e.message}!`);
       }
+    };
+    const btnCancel = document.getElementById('button-delete');
+    btnCancel.onclick = function() {
+      document.location = parentPage;
     };
   </script>
 <? undef ?>

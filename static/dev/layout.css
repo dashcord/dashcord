@@ -1,0 +1,49 @@
+body > main {
+  display: flex;
+  flex-flow: column;
+}
+
+#pane-bottom {
+  flex: 1;
+}
+
+#pane-right {
+  display: flex;
+  flex-flow: column;
+}
+
+#layout-container {
+  flex: 1;
+}
+
+.component {
+  display: flex;
+  flex-flow: column;
+}
+
+.type-selector {
+  width: 100%;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  border-bottom: 1px solid #212121;
+}
+
+.type-selector > p {
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+.type-selector > select.config-value {
+  margin: 0;
+  border-radius: 0;
+  flex: 1;
+}
+
+.comp-markdown > .input-code {
+  width: 100;
+  resize: none;
+  flex: 1;
+}
