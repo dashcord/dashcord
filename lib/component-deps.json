@@ -1,0 +1,23 @@
+{
+  "raphael": {
+    "id": "raphael",
+    "resources": [{
+      "type": "js",
+      "src": "https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"
+    }]
+  },
+  "graphael": {
+    "id": "graphael",
+    "resources": [{
+      "type": "js",
+      "src": "https://cdnjs.cloudflare.com/ajax/libs/graphael/0.5.1/g.raphael-min.js"
+    }]
+  },
+  "justgage": {
+    "id": "justgage",
+    "resources": [{
+      "type": "js",
+      "src": "https://cdnjs.cloudflare.com/ajax/libs/justgage/1.2.9/justgage.min.js"
+    }]
+  }
+}

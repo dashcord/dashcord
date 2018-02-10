@@ -53,12 +53,15 @@
       const selector = selectorBase.cloneNode(true);
       comp.prepend(selector);
       comp.classList.add(`comp-${type}`);
-      selector.value = type;
-      selector.onchange = function() {
-        comp.innerHTML = '';
-        comp.setAttribute('data-type', selector.value);
-        renderComp(comp);
-      };
+      setTimeout(function() {
+        selector.children[1].value = type;
+        console.log(selector.children[1]);
+        selector.onchange = function(e) {
+          comp.innerHTML = '';
+          comp.setAttribute('data-type', e.target.value);
+          renderComp(comp);
+        };
+      }, 2);
     }
     for (const comp of comps) renderComp(comp);
     const btnSubmit = document.getElementById('button-submit');
