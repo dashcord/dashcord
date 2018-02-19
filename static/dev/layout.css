@@ -47,3 +47,7 @@ body > main {
   resize: none;
   flex: 1;
 }
+
+.comp-field.m {
+  margin-bottom: 8px;
+}

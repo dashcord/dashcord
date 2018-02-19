@@ -62,7 +62,7 @@ body > main {
   margin: 10px auto 0;
 }
 
-input.config-value, select.config-value {
+input, select {
   line-height: 1.21em;
   font-size: 12pt;
   font-weight: normal;
@@ -73,15 +73,16 @@ input.config-value, select.config-value {
   -webkit-appearance: none;
 }
 
-input[type="text"].config-value,
-input[type="url"].config-value {
+input[type="text"],
+input[type="url"],
+input[type="number"]{
   width: 100%;
   padding: 6px 8px;
   border-radius: 4px;
   border: none;
 }
 
-select.config-value {
+select {
   padding: 4.5px 6px;
   padding-right: calc(6px + 1.25em);
   background: #fff;

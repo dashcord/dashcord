@@ -16,7 +16,9 @@ const request = new (class Requester {
     return new Promise((res, rej) => {
       request.onload = function() {
         if (request.status >= 400) {
-          rej(new Error(request.status));
+          const err = new Error(request.status);
+          err.body = request.responseText;
+          rej(err);
         } else {
           res(request.responseText);
         }

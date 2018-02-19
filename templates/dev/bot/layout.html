@@ -55,7 +55,6 @@
       comp.classList.add(`comp-${type}`);
       setTimeout(function() {
         selector.children[1].value = type;
-        console.log(selector.children[1]);
         selector.onchange = function(e) {
           comp.innerHTML = '';
           comp.setAttribute('data-type', e.target.value);
@@ -68,10 +67,15 @@
     btnSubmit.onclick = async function() {
       try {
         const payload = comps.map(comp => comp.jsonify());
-        await request.post('/dev/dash/<?= bot._id ?>/page/<?= req.i ?>/layout', payload);
-        document.location = parentPage;
+        try {
+          await request.post('/dev/dash/<?= bot._id ?>/page/<?= req.i ?>/layout', payload);
+          document.location = parentPage;
+        } catch (e) {
+          const err = JSON.parse(e.body);
+          showModal('confirm', `Failed to save: ${err.msg}!`);
+        }
       } catch (e) {
-        showModal('confirm', `Failed to save \u2014 ${e.message}!`);
+        showModal('confirm', `Config error: ${e.message}`);
       }
     };
     const btnCancel = document.getElementById('button-delete');

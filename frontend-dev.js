@@ -14,6 +14,7 @@ app.get('/dev/dash').exec(async (req, ren) => {
 });
 
 app.post('/dev/new').withBody('json').exec(async (req, ren) => {
+  req.backing.jsonResponse = true;
   if (!req.user) throw new Floop(401);
   const body = await req.body();
   if (!body.id) throw new Floop(400);
@@ -46,6 +47,7 @@ app.get('/dev/dash/:cid').withQuery('p', 'str').exec(async (req, ren) => {
 });
 
 app.post('/dev/dash/:cid/update').withBody('form').exec(async (req, ren) => {
+  req.backing.jsonResponse = true;
   if (!req.user) throw new Floop(401);
   const bot = await masters.bots.findOne({_id: req.cid});
   if (!bot) throw new Floop(404);
@@ -82,6 +84,7 @@ app.get('/dev/dash/:cid/delete').exec(async (req, ren) => {
 });
 
 app.post('/dev/dash/:cid/retoken').withBody('form').exec(async (req, ren) => {
+  req.backing.jsonResponse = true;
   if (!req.user) throw new Floop(401);
   const bot = await masters.bots.findOne({_id: req.cid});
   if (!bot) throw new Floop(404);
@@ -94,6 +97,7 @@ app.post('/dev/dash/:cid/retoken').withBody('form').exec(async (req, ren) => {
 
 const whEvents = ['change'];
 app.post('/dev/dash/:cid/updatehooks').withBody('form').exec(async (req, ren) => {
+  req.backing.jsonResponse = true;
   if (!req.user) throw new Floop(401);
   const bot = norm('bot', await masters.bots.findOne({_id: req.cid}));
   if (!bot) throw new Floop(404);
@@ -132,6 +136,7 @@ app.post('/dev/dash/:cid/updatehooks').withBody('form').exec(async (req, ren) =>
 });
 
 app.post('/dev/dash/:cid/updatepages').withBody('form').exec(async (req, ren) => {
+  req.backing.jsonResponse = true;
   if (!req.user) throw new Floop(401);
   const bot = norm('bot', await masters.bots.findOne({_id: req.cid}));
   if (!bot) throw new Floop(404);
@@ -187,6 +192,7 @@ app.get('/dev/dash/:cid/page/:i').exec(async (req, ren) => {
 });
 
 app.post('/dev/dash/:cid/page/:i').withBody('form').exec(async (req, ren) => {
+  req.backing.jsonResponse = true;
   if (!req.user) throw new Floop(401);
   const bot = norm('bot', await masters.bots.findOne({_id: req.cid}));
   if (!bot) throw new Floop(404);
@@ -224,11 +230,13 @@ app.get('/dev/dash/:cid/page/:i/layout').exec(async (req, ren) => {
   if (bot.owner !== req.user.id) throw new Floop(403, 'You don\'t own that bot!');
   const page = bot.pages[req.i];
   if (!page) throw new Floop(404, `Couldn't find page at index ${req.i}!`);
+  console.log(JSON.stringify(page));
   const layout = await layouts[page.layout].render(ren, page);
   return ren.render('dev/bot/layout.html', {bot, page, layout, types: compRegistry.registry.values()});
 });
 
 app.post('/dev/dash/:cid/page/:i/layout').withBody('json').exec(async (req, ren) => {
+  req.backing.jsonResponse = true;
   if (!req.user) throw new Floop(401);
   const bot = norm('bot', await masters.bots.findOne({_id: req.cid}));
   if (!bot) throw new Floop(404);
@@ -261,6 +269,7 @@ app.post('/dev/dash/:cid/page/:i/layout').withBody('json').exec(async (req, ren)
 });
 
 app.get('/dev/dash/:cid/page/:i/layout/:j').withQuery('t', 'str').exec(async (req, ren) => {
+  req.backing.jsonResponse = true;
   if (!req.user) throw new Floop(401);
   const bot = norm('bot', await masters.bots.findOne({_id: req.cid}));
   if (!bot) throw new Floop(404, 'Bot not found');
@@ -284,6 +293,7 @@ app.get('/dev/dash/:cid/page/:i/layout/:j').withQuery('t', 'str').exec(async (re
 });
 
 app.error().forCodes(400, 600)
-  .exec((req, msg, ren) => ren.render('dev/error.html', {code: req.code, msg}));
+  .exec((req, msg, ren) => req.backing.jsonResponse
+        ? {code: req.code, msg} : ren.render('dev/error.html', {code: req.code, msg}));
 
 module.exports = app;

@@ -2,7 +2,8 @@ const {Floof} = require('floof');
 const fbApi = require('./api.js');
 const fbFrontDev = require('./frontend-dev.js');
 const fbFrontEUser = require('./frontend-euser.js');
-const {logs, LogLevel, initDatabase, User, masters} = require('./lib');
+const {logs, LogLevel, initDatabase, User, masters, compRegistry} = require('./lib');
+const fs = require('fs');
 
 const app = new Floof()
   .ball(fbApi).ball(fbFrontDev).ball(fbFrontEUser);
@@ -33,17 +34,26 @@ if (process.env.DASHCORD_DEBUG === 'true') {
 
 (async function() {
   try {
+    logs.info('Loading components...');
+    for (const file of fs.readdirSync(`${__dirname}/lib/comp_impl`)) {
+      logs.debug(`  Registering component: ${file}`);
+      compRegistry.register(require(`./lib/comp_impl/${file}`));
+    }
+    
     logs.info('Initializing database...');
     await initDatabase();
+    
     logs.info('Caching user data...');
     const users = await masters.users.find({});
     User.cache(users);
+    
     logs.debug('Built GET endpoint tree:');
     (function iterEptNode(ept, path = '', layer = 0) {
       logs.debug(`${layer ? '│ '.repeat(layer - 1) + '├' : ''} ${path || '(root)'}${ept.endpoint ? ' <=' : ''}`);
       for (const [k, v] of ept.strong) iterEptNode(v, `${path}/${k}`, layer + 1);
       if (ept.weak) iterEptNode(ept.weak, `${path}/(${ept.weakType || '?'} ${ept.weakName})`, layer + 1);
     })(app.endpoints.roots.get('GET'));
+    
     logs.info('Starting server...');
     await app.go();
     logs.info('Server started.');
