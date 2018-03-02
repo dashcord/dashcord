@@ -6,11 +6,11 @@
       "src": "https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"
     }]
   },
-  "graphael": {
-    "id": "graphael",
+  "chartjs": {
+    "id": "chartjs",
     "resources": [{
       "type": "js",
-      "src": "https://cdnjs.cloudflare.com/ajax/libs/graphael/0.5.1/g.raphael-min.js"
+      "src": "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"
     }]
   },
   "justgage": {

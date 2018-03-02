@@ -2,10 +2,7 @@
   #layout-container {
     display: flex;
     flex-flow: row;
-  }
-  .component {
-    height: 100%;
-    flex: 1;
+    align-items: stretch;
   }
   #h-comp, #q-comps { flex: 1; }
   #h-comp {
@@ -13,10 +10,8 @@
     padding-right: 10px;
     border-right: 1px solid #212121;
   }
-  #q-comps {
-    display: flex;
-    flex-flow: column;
-  }
+  #q-comps { height: 100%; }
+  #q-comps > .component { min-height: calc(50% - 5px); }
   #t-comp {
     margin-bottom: 10px;
     padding-bottom: 10px;

@@ -12,10 +12,6 @@ body > main {
   flex-flow: column;
 }
 
-#layout-container {
-  flex: 1;
-}
-
 .component {
   display: flex;
   flex-flow: column;
@@ -42,12 +38,42 @@ body > main {
   flex: 1;
 }
 
-.comp-markdown > .input-code {
-  width: 100;
-  resize: none;
-  flex: 1;
+i:before {
+  content: "\F2D6";
+}
+    
+.icon-container {
+  margin-top: 10px;
+  font-size: 0;
 }
 
-.comp-field.m {
+.icon-preview, input[type="text"].icon {
+  margin: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.icon-preview {
+  width: 24px;
+  margin-right: 8px;
+  font-size: 24px;
+}
+
+input[type="text"].icon {
+  width: calc(100% - 32px);
+  font-size: 12pt;
+}
+
+.component > .m {
   margin-bottom: 8px;
+}
+
+.component > label {
+  margin-bottom: 5px;
+}
+
+.comp-markdown > .input-code {
+  width: 100%;
+  resize: none;
+  flex: 1 0 33.3vh;
 }

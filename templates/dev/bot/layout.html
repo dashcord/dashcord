@@ -46,12 +46,12 @@
       }
       comp.innerHTML = result;
       const script = comp.querySelector('script');
+      const selector = selectorBase.cloneNode(true);
+      comp.prepend(selector);
       if (script) {
         script.remove();
         (new Function('e', script.innerHTML))(comp);
       }
-      const selector = selectorBase.cloneNode(true);
-      comp.prepend(selector);
       comp.classList.add(`comp-${type}`);
       setTimeout(function() {
         selector.children[1].value = type;

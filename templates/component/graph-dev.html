@@ -1,0 +1,37 @@
+<label>Data Entry<span class="req">*</span></label>
+<input type="text" class="m" value="<?= src ?>" required pattern="\w*" maxlength="16">
+<label>Title</label>
+<input type="text" class="m" value="<?= title ?>" maxlength="16">
+<label>Line Colour</label>
+<input type="color" class="m" value="<?= options.borderColor ?>">
+<label>Line Width</label>
+<input type="number" class="m" value="<?= options.borderWidth || 2 ?>" min="0">
+<label>Fill Colour</label>
+<input type="color" class="m" value="<?= options.backgroundColor ?>">
+<label>Point Colour</label>
+<input type="color" class="m" value="<?= options.pointBackgroundColor ?>">
+<label>Point Border Colour</label>
+<input type="color" class="m" value="<?= options.pointBorderColor ?>">
+<script>
+  e.jsonify = function() {
+    if (!e.children[2].checkValidity()) throw new Error('Data entry ID must be between 1 and 16 alphanumeric characters!');
+    if (!e.children[4].checkValidity()) throw new Error('Title must be at most 16 characters!');
+    if (!e.children[6].checkValidity()) throw new Error('Line colour must be a valid colour!');
+    if (!e.children[8].checkValidity()) throw new Error('Line width must be a valid non-negative number!');
+    if (!e.children[10].checkValidity()) throw new Error('Fill colour must be a valid colour!');
+    if (!e.children[12].checkValidity()) throw new Error('Point colour must be a valid colour!');
+    if (!e.children[14].checkValidity()) throw new Error('Point border colour must be a valid colour!');
+    return {
+      type: 'graph',
+      src: e.children[2].value,
+      title: e.children[4].value,
+      options: {
+        borderColor: e.children[6].value,
+        borderWidth: e.children[8].valueAsNumber,
+        backgroundColor: e.children[10].value,
+        pointBackgroundColor: e.children[12].value,
+        pointBorderColor: e.children[14].value,
+      },
+    };
+  };
+</script>

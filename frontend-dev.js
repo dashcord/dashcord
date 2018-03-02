@@ -230,7 +230,6 @@ app.get('/dev/dash/:cid/page/:i/layout').exec(async (req, ren) => {
   if (bot.owner !== req.user.id) throw new Floop(403, 'You don\'t own that bot!');
   const page = bot.pages[req.i];
   if (!page) throw new Floop(404, `Couldn't find page at index ${req.i}!`);
-  console.log(JSON.stringify(page));
   const layout = await layouts[page.layout].render(ren, page);
   return ren.render('dev/bot/layout.html', {bot, page, layout, types: compRegistry.registry.values()});
 });

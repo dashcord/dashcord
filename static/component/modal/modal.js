@@ -30,7 +30,9 @@ const inputBox = document.getElementById('modal-window-input');
 let modalTask = null;
 let modalHandlerYes = null;
 let modalHandlerNo = null;
+let modalShown = false;
 function hideModal() {
+  modalShown = false;
   if (modalTask) window.clearTimeout(modalTask);
   win.classList.remove('visible');
   screen.classList.remove('visible');
@@ -39,6 +41,7 @@ function hideModal() {
   }, 300);
 }
 function showModal(type, text, yesCb, noCb, initialValue) {
+  modalShown = true;
   if (modalTask) window.clearTimeout(modalTask);
   modalHandlerYes = yesCb;
   modalHandlerNo = noCb;
@@ -49,7 +52,11 @@ function showModal(type, text, yesCb, noCb, initialValue) {
     win.classList.remove('boolean', 'confirm', 'text');
     win.classList.add('visible', type);
     screen.classList.add('visible');
-    inputBox.focus();
+    if (type === 'text') {
+      inputBox.focus();
+    } else {
+      win.focus();
+    }
   }, 1);
 }
 function confirm(e) {
@@ -62,10 +69,18 @@ function cancel(e) {
 }
 screen.onclick = cancel;
 document.onkeydown = function(e) {
-  if (e.keyCode === 27) cancel(e);
+  if (modalShown && e.keyCode === 27) {
+    cancel(e);
+    e.preventDefault = true;
+    return false;
+  }
 };
-inputBox.onkeydown = function(e) {
-  if (e.keyCode === 13) confirm(e);
+document.onkeydown = function(e) {
+  if (modalShown && e.keyCode === 13) {
+    confirm(e);
+    e.preventDefault = true;
+    return false;
+  }
 };
 buttonYes.onclick = buttonOk.onclick = confirm;
 buttonNo.onclick = cancel;

@@ -1,0 +1,29 @@
+<label>Data Entry<span class="req">*</span></label>
+<input type="text" class="m" value="<?= src ?>" required pattern="\w*" maxlength="16">
+<label>Title</label>
+<input type="text" class="m" value="<?= title ?>" maxlength="16">
+<label>Icon</label>
+<div class="icon-container">
+  <i class="icon-preview mdi mdi-<?= icon ?>"></i>
+  <input type="text" class="icon" value="<?= icon ?>" maxlength="24" pattern="[\w-]*">
+</div>
+<script>
+  (function(preview, field) {
+    field.onkeydown = function() {
+      window.setTimeout(function() {
+        preview.setAttribute('class', `icon-preview mdi mdi-${field.value}`);
+      }, 1);
+    };
+  })(e.children[6].children[0], e.children[6].children[1]);
+  e.jsonify = function() {
+    if (!e.children[2].checkValidity()) throw new Error('Data entry ID must be between 1 and 16 alphanumeric characters!');
+    if (!e.children[4].checkValidity()) throw new Error('Title must be at most 16 characters!');
+    if (!e.children[6].children[1].checkValidity()) throw new Error('Invalid icon!');
+    return {
+      type: 'bigtext',
+      src: e.children[2].value,
+      title: e.children[4].value,
+      icon: e.children[6].children[1].value,
+    };
+  };
+</script>
