@@ -3,6 +3,29 @@ body {
   color: #000;
 }
 
+hr {
+  background-color: #a0a0a0;
+  border-color: #a0a0a0;
+  border-style: solid;
+  border-top: none;
+  color: #a0a0a0;
+}
+
+.warn-icon, .warn-text {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.warn-icon {
+  margin-right: 2px;
+  color: #EC407A;
+  font-size: 24px;
+}
+
+.warn-text {
+  font-size: 13pt;
+}
+
 header {
   background-color: #FFF;
 }

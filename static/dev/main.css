@@ -4,7 +4,11 @@ body {
 }
 
 hr {
+  background-color: #212121;
   border-color: #212121;
+  border-style: solid;
+  border-top: none;
+  color: #212121;
 }
 
 a {

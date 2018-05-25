@@ -9,9 +9,8 @@ const app = new Floof()
   .ball(fbApi).ball(fbFrontDev).ball(fbFrontEUser);
 
 app.error().forCode(404).exec(async (req, msg, ren) => {
-  if (req.url.startsWith('/dev')) {
-    return await req.delegateError(fbFrontDev);
-  }
+  if (req.url.startsWith('/api')) return await req.delegateError(fbApi);
+  if (req.url.startsWith('/dev')) return await req.delegateError(fbFrontDev);
   return await req.delegateError(fbFrontEUser);
 });
 

@@ -1,0 +1,25 @@
+<? extends euser/parent.html ?>
+<? def title ?>Dashboard<? undef ?>
+<? def head ?>
+  <link rel="stylesheet" href="/static/euser/dash.css">
+<? undef ?>
+<? def main ?>
+  <h2>Server Dashboard</h2>
+  <p>Select a Discord server to continue.</p>
+  <hr>
+  <? if (guilds.length) { ?>
+    <div class="item-list">
+      <? for (const guild of guilds) { ?>
+        <a class="item" href="/dash/<?= guild.id ?>">
+          <img class="item-icon" src="https://cdn.discordapp.com/icons/<?= guild.id ?>/<?= guild.icon ?>.png"/>
+          <span class="item-text"><?= guild.name ?></span>
+        </a>
+      <? } ?>
+    </div>
+  <? } else { ?>
+    <div class="no-results">
+      <i class="warn-icon mdi mdi-alert-circle"></i>
+      <span class="warn-text">You don't appear to manage any servers.</span>
+    </div>
+  <? } ?>
+<? undef ?>
